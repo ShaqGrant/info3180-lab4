@@ -54,13 +54,13 @@ def add_entry():
 @app.route('/filelisting')
 def list_files():
     """list the files in a directory"""
-    rootdir = os.getcwd()
     lst = []
+    rootdir = os.getcwd()
     for subdir, dirs, files in os.walk(rootdir + '/app/static/uploads/'):
         for file in files:
-           lst.append(os.path.join(subdir, file))
+           lst.append(file)
+        return render_template("display_files.html",lst=lst)
 
-    return render_template("display_files.html",lst = lst)
 
 @app.route('/login', methods=['POST','GET'])
 def login():
@@ -73,7 +73,7 @@ def login():
             error = 'Invalid password' 
         else: 
             session['logged_in'] = True
-            flash('You were logged in') 
+            return render_template("files.html")
 
     return render_template("login_form.html",error=error)
 
